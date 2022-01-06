@@ -32,7 +32,7 @@ public class ChattingProjectServer {
                 // wait for client connections 
                 System.out.println("Waiting For Client Connection...");
                 socket = serverSocket.accept();
-                System.out.println("New Client Connected");
+                System.out.println(String.format("New Client Connected [%s]",socket.getInetAddress()));
                 
                 // handle the socket 
                 new RequestHandler(socket);

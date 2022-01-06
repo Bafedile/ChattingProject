@@ -34,5 +34,46 @@ public class DatabaseManager {
         ptmt.executeUpdate();
     }
     
+    public String readSignupData(ResultSet results)throws SQLException{
+        String message = "";
+        if(results.next()){
+            message += String.format("%s,%s",results.getString("username"),results.getString("email"));
+        }
+        return message;
+    }
+    
+    public String readLoginData(ResultSet results)throws SQLException{
+        String message = "";
+        if(results.next()){
+            message += String.format("%s,%s",results.getString("username"),results.getString("password"));
+        }
+        return message;
+    }
+    
+    public String getGroupDetails(ResultSet results) throws SQLException{
+        String message = "";
+        
+        while(results.next()){
+            message += String.format("%s, ",results.getString("groupname"));
+        }
+        return message;
+    }
+    
+    public String getGroupParticipants(ResultSet results) throws SQLException{
+        String message ="";
+        while(results.next()){
+            message += String.format("%s, ",results.getString("username"));
+        }
+        return message;
+    }
+    
+    public String getGroupMessages(ResultSet results)throws SQLException{
+        String message = "";
+        while(results.next()){
+            message +=  String.format("%s : %s#",results.getString("username"),results.getString("message"));
+        }
+        return message;
+    }
+    
     
 }
