@@ -17,6 +17,23 @@ public class Message {
         this.senderName = senderName;
         this.strMsg = strMsg;
     }
+
+    public String getSenderName() {
+        return senderName;
+    }
+
+    public void setSenderName(String senderName) {
+        this.senderName = senderName;
+    }
+
+    public String getStrMsg() {
+        return strMsg;
+    }
+
+    public void setStrMsg(String strMsg) {
+        this.strMsg = strMsg;
+    }
+    
     
     
 }

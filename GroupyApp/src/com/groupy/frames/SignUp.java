@@ -35,15 +35,15 @@ public class SignUp extends javax.swing.JFrame {
     
     public SignUp() {
         
-//        try {
-//            
-//            client = new Client(InetAddress.getByName("192.168.173.49"), 1234);
-//            
-//        } catch (UnknownHostException ex) {
-//            Logger.getLogger(SignUp.class.getName()).log(Level.SEVERE, null, ex);
-//        } catch (IOException ex) {
-//            Logger.getLogger(SignUp.class.getName()).log(Level.SEVERE, null, ex);
-//        }
+        try {
+            
+            client = new Client(InetAddress.getByName("168.172.185.74"), 1234);
+            
+        } catch (UnknownHostException ex) {
+            Logger.getLogger(SignUp.class.getName()).log(Level.SEVERE, null, ex);
+        } catch (IOException ex) {
+            Logger.getLogger(SignUp.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         initComponents();
     }
@@ -238,14 +238,30 @@ public class SignUp extends javax.swing.JFrame {
         String username = usernameField.getText();
         String email = userEmailField.getText();
         String password = new String(userPasswordField.getPassword());
+        
 
         if(!username.isEmpty() && !email.isEmpty() && !password.isEmpty()){
             if(!username.contains("#") && !email.contains("#") && !password.contains("#")
                     && !username.contains(":") && !email.contains(":") && !password.contains(":")){
+                try {
                     userPasswordField.setText("");
                     userEmailField.setText("");
                     usernameField.setText("");
                     System.out.println("signUp#"+username+"::"+email+"::"+password);
+                    String data = "signUp#"+username+"::"+email+"::"+password;
+                    if(client.startUpMessage(data)){
+                        System.out.println("Code ran here");
+                        JOptionPane.showMessageDialog(null,"Successfully Signed To the App");
+                            setVisible(false);
+                            client.setUsername(username);
+                            new Chat().setVisible(true);
+                            
+                    }else{
+                        JOptionPane.showMessageDialog(null,"This account might be existing!!!!");
+                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(SignUp.class.getName()).log(Level.SEVERE, null, ex);
+                }
             }else{
                 JOptionPane.showMessageDialog(null,"Avoid using these special characters (\":#\")","error message",JOptionPane.ERROR_MESSAGE);
             }
@@ -257,7 +273,7 @@ public class SignUp extends javax.swing.JFrame {
 
     private void loginLinkMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_loginLinkMouseClicked
         setVisible(false);
-        JFrame login = new Login();
+        JFrame login = new Login(client);
         login.setVisible(true);
     }//GEN-LAST:event_loginLinkMouseClicked
 

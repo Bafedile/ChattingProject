@@ -5,6 +5,8 @@
  */
 package com.groupy.frames;
 
+import java.awt.Label;
+
 /**
  *
  * @author VM JELE
@@ -30,9 +32,9 @@ public class Chat extends javax.swing.JFrame {
         mainViewPanel = new javax.swing.JPanel();
         chatPanel = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
-        jTextField1 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
+        chatTextArea = new javax.swing.JTextArea();
+        messagetxtField = new javax.swing.JTextField();
+        sendMessageButton = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -45,15 +47,20 @@ public class Chat extends javax.swing.JFrame {
         chatPanel.setPreferredSize(new java.awt.Dimension(600, 400));
         chatPanel.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        chatTextArea.setColumns(20);
+        chatTextArea.setRows(5);
+        jScrollPane1.setViewportView(chatTextArea);
 
         chatPanel.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 20, 460, 280));
-        chatPanel.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 320, 360, 30));
+        chatPanel.add(messagetxtField, new org.netbeans.lib.awtextra.AbsoluteConstraints(70, 320, 360, 30));
 
-        jButton1.setText("Send");
-        chatPanel.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 320, -1, -1));
+        sendMessageButton.setText("Send");
+        sendMessageButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                sendMessageButtonActionPerformed(evt);
+            }
+        });
+        chatPanel.add(sendMessageButton, new org.netbeans.lib.awtextra.AbsoluteConstraints(460, 320, -1, -1));
 
         jLabel2.setBackground(new java.awt.Color(255, 255, 255));
         jLabel2.setFont(new java.awt.Font("Franklin Gothic Demi Cond", 1, 48)); // NOI18N
@@ -87,6 +94,13 @@ public class Chat extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void sendMessageButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_sendMessageButtonActionPerformed
+        // TODO add your handling code here:
+        chatTextArea.add( new Label("Hello World!!!"));
+        chatTextArea.updateUI();
+        
+    }//GEN-LAST:event_sendMessageButtonActionPerformed
 
     /**
      * @param args the command line arguments
@@ -125,11 +139,11 @@ public class Chat extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel chatPanel;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JTextArea chatTextArea;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
     private javax.swing.JPanel mainViewPanel;
+    private javax.swing.JTextField messagetxtField;
+    private javax.swing.JButton sendMessageButton;
     // End of variables declaration//GEN-END:variables
 }

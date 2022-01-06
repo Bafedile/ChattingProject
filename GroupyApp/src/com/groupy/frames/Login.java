@@ -5,6 +5,10 @@
  */
 package com.groupy.frames;
 
+import groupyapp.Chat1;
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFrame;
 import javax.swing.JOptionPane;
 import za.ac.tut.connection.Client;
@@ -210,10 +214,24 @@ public class Login extends javax.swing.JFrame {
         if(!username.isEmpty()&& !password.isEmpty()){
                 if(!username.contains("#") &&  !password.contains("#")
                     && !username.contains(":") && !password.contains(":")){
-                    
+                try {
                     userPasswordField.setText("");
                     usernameField.setText("");
-                    System.out.println("login#"+username+"::"+password);
+                    
+                    String data = "login#"+username+"::"+password;
+                    if(client.startUpMessage(data)){
+                        JOptionPane.showMessageDialog(null,"Successfully Logged In");
+                        setVisible(false);
+                        System.out.println("window closed");
+                        client.setUsername(username);
+                         new Chat1(client).setVisible(true);
+                        
+                    }else{
+                        JOptionPane.showMessageDialog(null,"This account might be existing!!!!");
+                    }
+                } catch (IOException ex) {
+                    Logger.getLogger(Login.class.getName()).log(Level.SEVERE, null, ex);
+                }
                     
             }else{
                 JOptionPane.showMessageDialog(null,"Don't enter illegal characters","error message",JOptionPane.ERROR_MESSAGE);
