@@ -70,7 +70,7 @@ public class DatabaseManager {
     public String getGroupMessages(ResultSet results)throws SQLException{
         String message = "";
         while(results.next()){
-            message +=  String.format("%s : %s#",results.getString("username"),results.getString("message"));
+            message +=  String.format("%s::%s#",results.getString("username"),results.getString("message"));
         }
         return message;
     }

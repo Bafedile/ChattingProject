@@ -120,8 +120,17 @@ public class RequestHandler extends Thread{
                     results = dbm.getData(query);
                     result = dbm.getGroupParticipants(results);
                     writer.println(result);
-                }else if(requests[0].equalsIgnoreCase("getGroupMsg")){
-//                    query = String.format("select username,messag", tokens)
+                }else if(requests[0].equalsIgnoreCase("messages")){
+                    System.out.println("Request : "+request);
+                    query = String.format("select c.username,c.message,c.group_id from chat_messages c where c.group_id "
+                            + "=(select group_id from groupNames where groupname='%s'); ", requests[1]);
+                    
+                    // execute the query 
+                    results = dbm.getData(query);
+                    result = dbm.getGroupMessages(results);
+                    System.out.println(result);
+                    writer.println(result);
+                    writer.flush();
                 }
                 
                 
