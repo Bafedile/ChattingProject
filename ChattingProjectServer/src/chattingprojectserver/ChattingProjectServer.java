@@ -7,6 +7,8 @@ package chattingprojectserver;
 import java.net.*;
 import java.io.*;
 import java.sql.*;
+import java.time.LocalTime;
+import za.ac.tut.chatrequesthandler.ChatRequestHandler;
 import za.ac.tut.requesthandler.RequestHandler;
 /**
  *
@@ -21,7 +23,7 @@ public class ChattingProjectServer {
         // Declare and initialize the variables 
         Socket socket = null;
         ServerSocket serverSocket = null;
-        
+        LocalTime time;
         try{
             // start the server
             System.out.println("Starting Server...");
@@ -32,10 +34,13 @@ public class ChattingProjectServer {
                 // wait for client connections 
                 System.out.println("Waiting For Client Connection...");
                 socket = serverSocket.accept();
-                System.out.println(String.format("New Client Connected [%s]",socket.getInetAddress()));
+                
+                time = LocalTime.now();
+                System.out.println(String.format("New Client Connected [%s] at [%s]",socket.getInetAddress(),time));
                 
                 // handle the socket 
                 new RequestHandler(socket);
+                
             }
             
         }catch(IOException | SQLException ioe){

@@ -19,10 +19,16 @@ public class DatabaseManager {
     private Connection connection;
     
     public DatabaseManager(String url,String username,String password)throws SQLException{
-        connection = DriverManager.getConnection(url,username,password);
+        connection = DriverManager.getConnection(url,username,password); // connect to the database created 
     }
     
-    
+    public void createDatabase()throws SQLException{
+        String query = "create database if not exists chatting_project; ";
+        
+        // send the query to the database 
+        updateDatabase(query);
+        
+    }
     public ResultSet getData(String query)throws SQLException{
         PreparedStatement ptmt = connection.prepareStatement(query);
         ResultSet results = ptmt.executeQuery();
@@ -73,6 +79,11 @@ public class DatabaseManager {
             message +=  String.format("%s::%s#",results.getString("username"),results.getString("message"));
         }
         return message;
+    }
+    
+    public void updateDatabase(String query)throws SQLException{
+        PreparedStatement ptmt = connection.prepareStatement(query);
+        ptmt.executeUpdate();
     }
     
     
