@@ -33,6 +33,11 @@ public class Message {
     public void setStrMsg(String strMsg) {
         this.strMsg = strMsg;
     }
+
+    @Override
+    public String toString() {
+        return senderName+"::"+strMsg;
+    }
     
     
     

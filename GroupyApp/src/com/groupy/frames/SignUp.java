@@ -38,14 +38,19 @@ public class SignUp extends javax.swing.JFrame {
         try {
             
             client = new Client(InetAddress.getByName("168.172.185.74"), 1234);
+            initComponents();
             
         } catch (UnknownHostException ex) {
-            Logger.getLogger(SignUp.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,ex.getMessage(),"Error Occured",JOptionPane.ERROR_MESSAGE);
+            setVisible(false);
+            
         } catch (IOException ex) {
-            Logger.getLogger(SignUp.class.getName()).log(Level.SEVERE, null, ex);
+            JOptionPane.showMessageDialog(null,ex.getMessage(),"Error Occured",JOptionPane.ERROR_MESSAGE);
+            setVisible(false);
+            
         }
         
-        initComponents();
+        
     }
 
     /** This method is called from within the constructor to
@@ -254,7 +259,7 @@ public class SignUp extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(null,"Successfully Signed To the App");
                             setVisible(false);
                             client.setUsername(username);
-                            new Chat().setVisible(true);
+                            new Chat1().setVisible(true);
                             
                     }else{
                         JOptionPane.showMessageDialog(null,"This account might be existing!!!!");

@@ -5,7 +5,6 @@
  */
 package com.groupy.frames;
 
-import groupyapp.Chat1;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -222,6 +221,7 @@ public class Login extends javax.swing.JFrame {
                     if(client.startUpMessage(data)){
                         JOptionPane.showMessageDialog(null,"Successfully Logged In");
                         setVisible(false);
+                        
                         System.out.println("window closed");
                         client.setUsername(username);
                          new Chat1(client).setVisible(true);

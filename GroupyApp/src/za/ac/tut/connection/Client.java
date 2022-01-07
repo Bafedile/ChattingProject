@@ -22,11 +22,28 @@ public class Client {
         groupsJoined = new LinkedList<>();
     }
 
-    public LinkedList<Group> getGroupsJoined() {
+    public synchronized Socket getSock() {
+        return sock;
+    }
+
+    public synchronized void setSock(Socket sock) {
+        this.sock = sock;
+    }
+    
+    public synchronized boolean createGroup(String grpInfo) throws IOException{
+        out.println(grpInfo);
+        
+        boolean results = ("true".equalsIgnoreCase(in.readLine()));
+        
+        return results;
+    }
+    
+    
+    public synchronized LinkedList<Group> getGroupsJoined() {
         return groupsJoined;
     }
 
-    public void setGroupsJoined(LinkedList<Group> groupsJoined) {
+    public synchronized void setGroupsJoined(LinkedList<Group> groupsJoined) {
         this.groupsJoined = groupsJoined;
     }
     
@@ -35,20 +52,21 @@ public class Client {
         groupsJoined = new LinkedList<>();
     }
 
-    public String getUsername() {
+    public synchronized String getUsername() {
         return username;
     }
 
-    public void setUsername(String username) {
+    public synchronized void setUsername(String username) {
         this.username = username;
     }
     
     
     
-    public void sendMessage(String msg){
-        out.println(msg);
+    public synchronized void sendMessage(Message msg,String grpName){
+        String request = "message#"+grpName+"::"+msg.toString();
+        out.println(request);
     }
-    public String readMessage() throws IOException{
+    public String readMessage(String grpName) throws IOException{
         String msg = in.readLine();
         
         return msg;
@@ -62,7 +80,7 @@ public class Client {
         return results;
     }
     
-    public void connectToServer(InetAddress addr,int port) throws IOException{
+    public synchronized void connectToServer(InetAddress addr,int port) throws IOException{
         if(sock==null){
             sock = new Socket(addr,port);
             out = new PrintWriter(new BufferedWriter(new OutputStreamWriter(sock.getOutputStream())), true);
@@ -70,7 +88,7 @@ public class Client {
         }
     }
     
-    public void getAllGroupNameJoined() throws IOException{
+    public synchronized void getAllGroupNameJoined() throws IOException{
         
         String request ="groups#"+username;
         
@@ -78,22 +96,23 @@ public class Client {
         
         String response = in.readLine();
         assignGrpName(response);
-        System.out.println(response);
     }
     
-    public LinkedList<Message> getMessages(String grpName) throws IOException{
+    public synchronized  LinkedList<Message> getMessages(String grpName) throws IOException{
        LinkedList<Message> messages = new LinkedList<>();
        
        String request = "messages#"+grpName;
        out.println(request);
        
        String response = in.readLine();
-        System.out.println(response);
-       String messagesArr[] = response.split("#");
+        if(!response.isEmpty()){
+            
+            String messagesArr[] = response.split("#");
        
-       for(int i=0;i<messagesArr.length;i++){
+            for(int i=0;i<messagesArr.length;i++){
            
-            messages.add(toMessage(messagesArr[i]));
+                messages.add(toMessage(messagesArr[i]));
+            }
         }
        
        
@@ -109,23 +128,23 @@ public class Client {
         return new Message(msgData[0],msgData[1]); 
     }
     
-    public void getParticipantsForEachGrp() throws IOException{
+    public synchronized void getParticipantsForEachGrp() throws IOException{
         String request;
         
-        int count = groupsJoined.size();
+        if(!groupsJoined.isEmpty()){
+            int count = groupsJoined.size();
         
-        
-        for(int j=0; j<count;j++){
-            request = "participants#"+groupsJoined.get(j).getGroupName();
-            
-            out.println(request);
-            groupsJoined.get(j).setParticipants(in.readLine());
-            System.out.println(groupsJoined.get(j).getParticipants());
+            for(int j=0; j<count;j++){
+                request = "participants#"+groupsJoined.get(j).getGroupName();
+
+                out.println(request);
+                groupsJoined.get(j).setParticipants(in.readLine());
+            }
         }
         
     }
     
-    public void closeConnection()throws IOException{
+    public synchronized void closeConnection()throws IOException{
         if(sock!=null){
             out.println("close");
             in.close();
@@ -137,9 +156,11 @@ public class Client {
     
     private void assignGrpName(String response){
         
-        String grpNames[] = response.split(", ");
-        for(int i=0; i<grpNames.length;i++){
-            groupsJoined.add(new Group(grpNames[i]));
+        if(!response.isEmpty()){
+            String grpNames[] = response.split(", ");
+            for(int i=0; i<grpNames.length;i++){
+                groupsJoined.add(new Group(grpNames[i]));
+            }
         }
     }
 
